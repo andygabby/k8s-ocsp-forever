@@ -1,0 +1,15 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: trillian-ctfe
+  labels:
+    release: prometheus-operator
+spec:
+  selector:
+    matchLabels:
+      app: trillian-ctfe
+  endpoints:
+  - interval: 30s
+    path: /metrics
+    port: metrics

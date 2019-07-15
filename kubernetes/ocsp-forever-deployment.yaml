@@ -1,0 +1,36 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ocsp-forever
+  name: ocsp-forever-deployment
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ocsp-forever
+    spec:
+      containers:
+        - name: ocsp-forever
+          args: [
+          "/certs"
+          ]
+          image: andygabby/ocsp_forever:arm-20190715-34a55a9b
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            name: metrics
+          volumeMounts:
+          - name: ocsp-forever-certs-volume
+            mountPath: /certs
+            readOnly: true
+      volumes:
+        - name: ocsp-forever-certs-volume
+          configMap:
+            name: ocsp-forever-certs
+      restartPolicy: Always
+status: {}
